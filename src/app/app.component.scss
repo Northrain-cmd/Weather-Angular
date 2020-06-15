@@ -1,0 +1,27 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1{
+        color: white;
+    }
+    app-searchbar{
+        width: 50%;
+        height: 20%;
+        display: flex;
+        justify-content: center;
+    }
+    app-weather-widget{
+        height: 80%;
+        width: 50%;
+    }
+}
+@media only screen and (max-width:800px){
+    app-searchbar{
+        width: 80% !important;    
+    }
+    app-weather-widget{
+        width: 80% !important;
+    }
+}
