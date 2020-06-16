@@ -8,9 +8,16 @@ export class WeatherService {
   weather = new EventEmitter();
   notFound = new EventEmitter();
   async getWeather(city) {
-      const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${environment.openWeather}`);
+    try {
+      const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${environment.openWeather}`,
+      {mode:'cors'});
       const data = await response.json();
       this.weather.emit(data);
+    }
+    catch(error) {
+      console.log(error);
+    }
+     
   }
 
    getIcon(code) {

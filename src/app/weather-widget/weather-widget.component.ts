@@ -12,26 +12,29 @@ export class WeatherWidgetComponent implements OnInit {
   celcius = true;
   temp:string;
   feels_like:string;
+  isLoading = false;
   constructor(public weatherService:WeatherService) { }
   changeMode() {
     this.celcius = ! this.celcius;
     if (this.celcius === false) {
-      this.temp = (this.weatherData.main.temp*(9/5)+32).toFixed(2)+'\u00B0\F';
-      this.feels_like = (this.weatherData.main.feels_like*(9/5)+32).toFixed(2)+'\u00B0\F';
+      this.temp = (this.weatherData.main.temp*(9/5)+32).toFixed(1)+'\u00B0\F';
+      this.feels_like = (this.weatherData.main.feels_like*(9/5)+32).toFixed(1)+'\u00B0\F';
     } 
     else{
-      this.temp = this.weatherData.main.temp+'\u00B0\C';
-      this.feels_like = this.weatherData.main.feels_like+'\u00B0\C';
+      this.temp = this.weatherData.main.temp.toFixed(1)+'\u00B0\C';
+      this.feels_like = this.weatherData.main.feels_like.toFixed(1)+'\u00B0\C';
     }
   }
   ngOnInit(): void {
     this.weatherService.getWeather('New York');
     this.weatherService.weather.subscribe(weather => {
+      this.isLoading = true;
       if(weather.weather) {
         this.showError = false;
         this.weatherData = weather;
-        this.temp = this.weatherData.main.temp+'\u00B0\C';
-        this.feels_like = this.weatherData.main.feels_like+'\u00B0\C';
+        this.isLoading = false;
+        this.temp = this.weatherData.main.temp.toFixed(1)+'\u00B0\C';
+        this.feels_like = this.weatherData.main.feels_like.toFixed(1)+'\u00B0\C';
       }
       else {
         this.showError = true;

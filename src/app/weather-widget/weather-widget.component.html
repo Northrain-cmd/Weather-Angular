@@ -1,3 +1,4 @@
+<span class="loading" *ngIf="isLoading">Loading...</span>
 <div *ngIf="weatherData; else error" class="container">
     <h2>{{weatherData.name}}</h2>
     <div class="grid-x">
