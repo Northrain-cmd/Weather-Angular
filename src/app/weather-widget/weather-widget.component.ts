@@ -8,6 +8,7 @@ import { WeatherService } from '../weather.service';
 })
 export class WeatherWidgetComponent implements OnInit {
   weatherData;
+  showError = false;
   celcius = true;
   temp:string;
   feels_like:string;
@@ -26,12 +27,18 @@ export class WeatherWidgetComponent implements OnInit {
   ngOnInit(): void {
     this.weatherService.getWeather('New York');
     this.weatherService.weather.subscribe(weather => {
-      console.log(weather);
-      this.weatherData = weather;
-      this.temp = this.weatherData.main.temp+'\u00B0\C';
-      this.feels_like = this.weatherData.main.feels_like+'\u00B0\C';
-     
-    });
+      if(weather.weather) {
+        this.showError = false;
+        this.weatherData = weather;
+        this.temp = this.weatherData.main.temp+'\u00B0\C';
+        this.feels_like = this.weatherData.main.feels_like+'\u00B0\C';
+      }
+      else {
+        this.showError = true;
+        console.log(this.showError);
+        this.weatherData = undefined;
+      }
+    }, error => console.log(error));
   }
 
 }
