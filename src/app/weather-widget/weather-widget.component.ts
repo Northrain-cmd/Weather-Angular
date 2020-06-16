@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { WeatherService } from '../weather.service';
 
 @Component({
@@ -8,10 +8,30 @@ import { WeatherService } from '../weather.service';
 })
 export class WeatherWidgetComponent implements OnInit {
   weatherData;
-  constructor(private weatherService:WeatherService) { }
-
+  celcius = true;
+  temp:string;
+  feels_like:string;
+  constructor(public weatherService:WeatherService) { }
+  changeMode() {
+    this.celcius = ! this.celcius;
+    if (this.celcius === false) {
+      this.temp = (this.weatherData.main.temp*(9/5)+32).toFixed(2)+'\u00B0\F';
+      this.feels_like = (this.weatherData.main.feels_like*(9/5)+32).toFixed(2)+'\u00B0\F';
+    } 
+    else{
+      this.temp = this.weatherData.main.temp+'\u00B0\C';
+      this.feels_like = this.weatherData.main.feels_like+'\u00B0\C';
+    }
+  }
   ngOnInit(): void {
-    this.weatherService.weather.subscribe(weather => this.weatherData = weather);
+    this.weatherService.getWeather('New York');
+    this.weatherService.weather.subscribe(weather => {
+      console.log(weather);
+      this.weatherData = weather;
+      this.temp = this.weatherData.main.temp+'\u00B0\C';
+      this.feels_like = this.weatherData.main.feels_like+'\u00B0\C';
+     
+    });
   }
 
 }

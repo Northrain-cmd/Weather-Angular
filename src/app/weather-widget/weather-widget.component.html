@@ -1,3 +1,36 @@
-<div class="container">
-    <p *ngIf="weatherData">{{weatherData |json}}</p>
+<div *ngIf="weatherData" class="container">
+    <h2>{{weatherData.name}}</h2>
+    <div class="grid-x">
+        <img class="cell small-offset-3 small-4 medium-3" [src]="this.weatherService.getIcon(this.weatherData.weather[0].icon)">
+        <h3 class="text-center cell small-5 medium-6">{{weatherData.weather[0].main}}</h3>
+    </div>
+    
+    <div class="grid-x align-center">
+        <h4 class="col small-12 medium-6"><i class="fas fa-temperature-low"></i><span>{{this.temp}}</span></h4>
+        <h4  class="col small-12 medium-6">Pressure <span>{{weatherData.main.pressure}} hPa</span></h4>
+    </div>
+    <div class="grid-x align-center">
+        <h4 class="col small-12 medium-6">Feels like <span>{{this.feels_like}}</span></h4>
+        <h4  class="col small-12 medium-6"><i class="fas fa-wind"></i><span>{{weatherData.wind.speed}} m/s</span></h4>
+    </div>
+    <div class="grid-x align-center">
+        <h4 class="col small-12 medium-6"><i class="fas fa-sun"></i>
+            <i class="fas fa-long-arrow-alt-up"></i>
+            <span> {{this.weatherData.sys.sunrise*1000 |date:'shortTime'}}</span>
+            </h4>
+        <h4 class="col small-12 medium-6"><i class="fas fa-sun"></i>
+            <i class="fas fa-long-arrow-alt-down"></i>
+            <span> {{this.weatherData.sys.sunset*1000 |date:'shortTime'}}</span>
+            </h4>
+    </div>
+    <div class="grid-x align-center">
+        <h4 class="col small-12 medium-6"><i class="fas fa-tint"></i>
+            <span>
+                {{weatherData.main.humidity}}%
+            </span> </h4>
+    </div>
+    <div class="grid-x button-div align-center">
+        <button (click)="changeMode()" class="button">&#176;C/&#176;F</button>
+    </div>
+    
 </div>

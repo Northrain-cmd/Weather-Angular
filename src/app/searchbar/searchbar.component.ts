@@ -9,8 +9,7 @@ import { WeatherService } from '../weather.service';
 export class SearchbarComponent implements OnInit {
   searchTerm:string;
   onSubmit() {
-    this.weatherService.getWeather(this.searchTerm);
-    
+    this.weatherService.getWeather(this.searchTerm);;
   }
   constructor(private weatherService:WeatherService) { }
 
