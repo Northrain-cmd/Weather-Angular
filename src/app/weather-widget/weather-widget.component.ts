@@ -38,7 +38,6 @@ export class WeatherWidgetComponent implements OnInit {
       }
       else {
         this.showError = true;
-        console.log(this.showError);
         this.weatherData = undefined;
       }
     }, error => console.log(error));
