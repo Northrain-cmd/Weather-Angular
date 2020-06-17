@@ -7,9 +7,27 @@ import { environment } from '../environments/environment';
 export class WeatherService {
   weather = new EventEmitter();
   notFound = new EventEmitter();
-  async getWeather(city) {
+  getLocation() {
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position)
+        const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
+        this.getWeather('',longitude,latitude);
+      })
+    }  else {
+      console.log("Geolocation not supported")
+      this.getWeather('New York');
+    }
+  }
+  async getWeather(city, longitude?,latitude?) {
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${environment.openWeather}`,
+      let response;
+      if(longitude) {
+         response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&APPID=${environment.openWeather}`,
+        {mode:'cors'})
+      }
+       response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${environment.openWeather}`,
       {mode:'cors'});
       const data = await response.json();
       this.weather.emit(data);

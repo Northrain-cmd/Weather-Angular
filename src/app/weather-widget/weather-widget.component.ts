@@ -12,7 +12,7 @@ export class WeatherWidgetComponent implements OnInit {
   celcius = true;
   temp:string;
   feels_like:string;
-  isLoading = false;
+  isLoading = true;
   constructor(public weatherService:WeatherService) { }
   changeMode() {
     this.celcius = ! this.celcius;
@@ -26,13 +26,13 @@ export class WeatherWidgetComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.weatherService.getWeather('New York');
+    this.weatherService.getLocation();
     this.weatherService.weather.subscribe(weather => {
-      this.isLoading = true;
+      console.log(weather);
+      this.isLoading = false;
       if(weather.weather) {
         this.showError = false;
         this.weatherData = weather;
-        this.isLoading = false;
         this.temp = this.weatherData.main.temp.toFixed(1)+'\u00B0\C';
         this.feels_like = this.weatherData.main.feels_like.toFixed(1)+'\u00B0\C';
       }
